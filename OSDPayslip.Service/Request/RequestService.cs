@@ -41,14 +41,14 @@ namespace OSDPayslip.Service.Request
 
         public IEnumerable<RequestDetailViewModel> GetAllById(int id)
         {
-            var lst = _requestDetailReponsitory.FindAll().Where(x => x.RequestID == id).ToList();
+            var lst = _requestDetailReponsitory.FindAll().Where(x => x.Id == id).ToList();
             IEnumerable<RequestDetailViewModel> requestDetailViewModels = new List<RequestDetailViewModel>();
             return requestDetailViewModels = _mapper.Map<List<RequestDetail>, List<RequestDetailViewModel>>(lst);
         }
 
         public RequestDetailViewModel GetById(int id)
         {
-            var item = _requestDetailReponsitory.FindAll().Where(x => x.RequestID == id).FirstOrDefault();
+            var item = _requestDetailReponsitory.FindAll().Where(x => x.Id == id).FirstOrDefault();
             RequestDetailViewModel requestDetailViewModel = new RequestDetailViewModel();
             return requestDetailViewModel = _mapper.Map<RequestDetail, RequestDetailViewModel>(item);
         }
@@ -84,7 +84,7 @@ namespace OSDPayslip.Service.Request
             };
             Add(requestDetail);
             Save();
-            return GetAll().Max(x => x.RequestID);
+            return GetAll().Max(x => x.Id);
         }
     }
 }

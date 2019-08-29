@@ -1,0 +1,35 @@
+<div style="width: 100%" class="Payslip"
+    style="margin-left: 300px; background-image:url('../../assets/publics/backgroundsakura.jpg'); background-size: cover">
+    <strong>
+        <h2 style="color: pink">Request</h2>
+    </strong>
+    <div class="row" style="margin-left: 20px">
+        <input class="btn" type="submit" style="background-color:pink" mat-raised-button (click)="openCreate()"
+            value="Create New Request">
+    </div>
+    <br>
+    <div class="row" style="width: 90%; margin-left: 20px">
+        <table class="table table-hover table-bordered shadow p-3 mb-5 bg-white rounded"  >
+            <thead>
+                <tr class=" table-danger">
+                    <th scope="col">ID</th>
+                    <th scope="col">No Of Deployee</th>
+                    <th scope="col">Payslip For Month</th>
+                    <th scope="col">Create By</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Handle</th>
+                </tr>
+            </thead>
+            <tbody *ngFor='let item of service.list'>
+                <tr>
+                    <th scope="row">{{item.Id}}</th>
+                    <td>{{item.NoOfDeployee}}</td>
+                    <td>{{item.PayslipForMonth}}</td>
+                    <td>{{item.CreateBy}}</td>
+                    <td>{{item.Status}}</td>
+                    <td><button type="button" class="btn btn-info">Open</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

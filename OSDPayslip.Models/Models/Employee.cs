@@ -7,9 +7,7 @@ namespace OSDPayslip.Models.Models
 {
     public class Employee : DomainEntity<string>
     {
-        [Key]
-        public string EmployeeID { get; set; }
-
+   
         public string FullName { get; set; }
         public string DeptTeam { get; set; }
         public string Position { get; set; }

@@ -95,7 +95,7 @@ namespace OSDPayslip.Service.Payslip
                 {
                     EmployeeViewModel e = new EmployeeViewModel()
                     {
-                        EmployeeID = worksheet.Cells[row, 2].Value.ToString(),
+                        Id = worksheet.Cells[row, 2].Value.ToString(),
                         FullName = worksheet.Cells[row, 3].Value.ToString(),
                         Position = worksheet.Cells[row, 4].Value.ToString(),
                         DeptTeam = worksheet.Cells[row, 5].Value.ToString(),

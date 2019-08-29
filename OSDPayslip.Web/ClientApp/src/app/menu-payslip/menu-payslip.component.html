@@ -1,0 +1,28 @@
+<div class="main" igxLayout> 
+    <igx-nav-drawer id="navigation" [isOpen]="drawerState.open" [(pin)]="drawerState.pin">
+      <ng-template igxDrawer>
+        <nav>
+          <span igxDrawerItem [isHeader]="true"><img style="height: 40px;text-align: center" src='../../assets/publics/osd-logo-black.png'/></span>
+  
+          <span *ngFor="let item of navItems" igxDrawerItem [active]="item.text === selected" (click)="navigate(item)"  routerLink="./{{item.pages}}">
+            <igx-icon fontSet="material">{{ item.name }}</igx-icon>
+            <span>{{ item.text }}</span>
+          </span>
+      </nav>
+      </ng-template>
+      <ng-template igxDrawerMini *ngIf="drawerState.miniTemplate">
+          <nav>
+            <span *ngFor="let item of navItems" igxDrawerItem [active]="item.text === selected"  (click)="navigate(item)"  routerLink="./{{item.pages}}"  >
+              <igx-icon fontSet="material">{{ item.name }}</igx-icon>
+            </span>
+        </nav>
+        </ng-template>
+    </igx-nav-drawer>
+    <!--<main igxFlex [class.mini-padding]="!drawerState.pin && drawerState.miniTemplate">
+      <span igxButton="icon" igxToggleAction="navigation">
+        <igx-icon fontSet="material">menu</igx-icon>
+      </span>
+    </main>-->
+  </div>
+<router-outlet></router-outlet>
+  

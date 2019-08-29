@@ -5,7 +5,7 @@ namespace OSDPayslip.Models.ViewModels
 {
     public class PayslipDetailViewModel
     {
-        public int PayslipID { get; set; }
+        public int Id { get; set; }
         public int StandardWorkingDay { get; set; }
         public int ActualWorkingDay { get; set; }
         public int UnpaidLeave { get; set; }

@@ -21,29 +21,26 @@ namespace OSDPayslip.Data.Migrations
 
             modelBuilder.Entity("OSDPayslip.Models.Models.Employee", b =>
                 {
-                    b.Property<string>("EmployeeID")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("DeptTeam");
 
                     b.Property<string>("FullName");
 
-                    b.Property<string>("Id");
-
                     b.Property<string>("Position");
 
                     b.Property<DateTime>("StartDay");
 
-                    b.HasKey("EmployeeID");
+                    b.HasKey("Id");
 
                     b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("OSDPayslip.Models.Models.PayslipDetail", b =>
                 {
-                    b.Property<int>("PayslipID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<double?>("ActuaSalary");
 
@@ -68,8 +65,6 @@ namespace OSDPayslip.Data.Migrations
                     b.Property<double?>("HealthInsurance");
 
                     b.Property<int>("Holidays");
-
-                    b.Property<string>("Id");
 
                     b.Property<double?>("IncomeOther");
 
@@ -107,7 +102,7 @@ namespace OSDPayslip.Data.Migrations
 
                     b.Property<int>("UnpaidLeave");
 
-                    b.HasKey("PayslipID");
+                    b.HasKey("Id");
 
                     b.HasIndex("EmployeeID");
 
@@ -118,7 +113,7 @@ namespace OSDPayslip.Data.Migrations
 
             modelBuilder.Entity("OSDPayslip.Models.Models.RequestDetail", b =>
                 {
-                    b.Property<int>("RequestID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -126,17 +121,17 @@ namespace OSDPayslip.Data.Migrations
 
                     b.Property<DateTime?>("CreateDate");
 
-                    b.Property<int>("Id");
-
                     b.Property<string>("ModifyBy");
 
                     b.Property<DateTime?>("ModifyDate");
 
                     b.Property<int?>("NoOfDeployee");
 
+                    b.Property<int?>("PayslipForMonth");
+
                     b.Property<int>("Status");
 
-                    b.HasKey("RequestID");
+                    b.HasKey("Id");
 
                     b.ToTable("RequestDetail");
                 });

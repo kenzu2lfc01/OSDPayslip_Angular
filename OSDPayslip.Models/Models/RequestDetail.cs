@@ -9,9 +9,6 @@ namespace OSDPayslip.Models.Models
 {
     public class RequestDetail : DomainEntity<int>, IAuditable
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int RequestID { get; set; }
         public int? NoOfDeployee { get; set; }
         public int? PayslipForMonth { get; set; }
         public virtual IEnumerable<PayslipDetail> PayslipDetails { get; set; }

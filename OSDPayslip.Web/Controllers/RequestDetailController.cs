@@ -67,7 +67,7 @@ namespace OSDPayslip.Web.Controllers
         {
             _requestService.Add(requestDetail);
             _requestService.Save();
-            return CreatedAtAction("GetRequestDetail", new { id = requestDetail.RequestID }, requestDetail);
+            return CreatedAtAction("GetRequestDetail", new { id = requestDetail.Id }, requestDetail);
         }
 
         // DELETE: api/RequestDetail/5

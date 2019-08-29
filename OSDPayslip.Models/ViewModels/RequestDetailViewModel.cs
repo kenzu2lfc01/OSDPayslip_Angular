@@ -5,7 +5,7 @@ namespace OSDPayslip.Models.ViewModels
 {
     public class RequestDetailViewModel
     {
-        public int RequestID { get; set; }
+        public int Id { get; set; }
         public int NoOfDeployee { get; set; }
         public int PayslipForMonth { get; set; }
 

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OSDPayslip.Data.Migrations
 {
-    public partial class update141826082019 : Migration
+    public partial class update164629082019 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,26 +12,25 @@ namespace OSDPayslip.Data.Migrations
                 name: "Employees",
                 columns: table => new
                 {
-                    EmployeeID = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(nullable: false),
                     FullName = table.Column<string>(nullable: true),
                     DeptTeam = table.Column<string>(nullable: true),
                     Position = table.Column<string>(nullable: true),
-                    StartDay = table.Column<DateTime>(nullable: false),
-                    OfficialDay = table.Column<DateTime>(nullable: false)
+                    StartDay = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employees", x => x.EmployeeID);
+                    table.PrimaryKey("PK_Employees", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "RequestDetail",
                 columns: table => new
                 {
-                    RequestID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Id = table.Column<int>(nullable: false),
-                    NoOfDeployee = table.Column<int>(nullable: false),
+                    NoOfDeployee = table.Column<int>(nullable: true),
+                    PayslipForMonth = table.Column<int>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: true),
                     CreateBy = table.Column<string>(nullable: true),
                     ModifyDate = table.Column<DateTime>(nullable: true),
@@ -40,16 +39,14 @@ namespace OSDPayslip.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RequestDetail", x => x.RequestID);
+                    table.PrimaryKey("PK_RequestDetail", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "PayslipDetails",
                 columns: table => new
                 {
-                    PayslipID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Id = table.Column<string>(nullable: true),
+                    Id = table.Column<string>(nullable: false),
                     StandardWorkingDay = table.Column<int>(nullable: false),
                     ActualWorkingDay = table.Column<int>(nullable: false),
                     UnpaidLeave = table.Column<int>(nullable: false),
@@ -83,18 +80,18 @@ namespace OSDPayslip.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PayslipDetails", x => x.PayslipID);
+                    table.PrimaryKey("PK_PayslipDetails", x => x.Id);
                     table.ForeignKey(
                         name: "FK_PayslipDetails_Employees_EmployeeID",
                         column: x => x.EmployeeID,
                         principalTable: "Employees",
-                        principalColumn: "EmployeeID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PayslipDetails_RequestDetail_RequestID",
                         column: x => x.RequestID,
                         principalTable: "RequestDetail",
-                        principalColumn: "RequestID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 

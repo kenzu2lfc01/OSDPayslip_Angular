@@ -10,10 +10,6 @@ namespace OSDPayslip.Models.Models
 {
     public class PayslipDetail : DomainEntity<string>, IAuditable
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        // I.Working timesheet information
-        public int PayslipID { get; set; }
         public int StandardWorkingDay { get; set; }
         public int ActualWorkingDay { get; set; }
         public int UnpaidLeave { get; set; }

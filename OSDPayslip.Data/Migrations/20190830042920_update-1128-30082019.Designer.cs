@@ -10,8 +10,8 @@ using OSDPayslip.Data;
 namespace OSDPayslip.Data.Migrations
 {
     [DbContext(typeof(OSDPayslipDbContext))]
-    [Migration("20190829094658_update-1646-29082019")]
-    partial class update164629082019
+    [Migration("20190830042920_update-1128-30082019")]
+    partial class update112830082019
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

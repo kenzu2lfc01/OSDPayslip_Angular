@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OSDPayslip.Data.Migrations
 {
-    public partial class update164629082019 : Migration
+    public partial class update112830082019 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

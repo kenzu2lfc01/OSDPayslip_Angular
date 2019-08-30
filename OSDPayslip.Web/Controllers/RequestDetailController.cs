@@ -38,7 +38,7 @@ namespace OSDPayslip.Web.Controllers
         }
 
         [HttpPost]
-        [Route("Read")]
+        [Route("newrequest")]
         public void ReadExcelFile(FileInfoInputDTO input)
         {
             var requestId = _requestService.CreateNewRequest(input.Month);

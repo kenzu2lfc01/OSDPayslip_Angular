@@ -8,3 +8,7 @@ export class RequestDetails {
     ModifyBy: string
     Status: number
 }
+export class CreateRequestInput {
+    PayslipForMonth: number
+    File: any
+}

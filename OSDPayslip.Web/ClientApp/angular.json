@@ -28,7 +28,9 @@
               "src/styles.css",
               "node_modules/igniteui-angular/styles/igniteui-angular.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/middleware.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -94,7 +96,9 @@
               "src/styles.css",
               "node_modules/igniteui-angular/styles/igniteui-angular.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/middleware.js"
+            ]
           }
         },
         "lint": {

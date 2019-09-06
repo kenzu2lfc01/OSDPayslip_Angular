@@ -24,7 +24,9 @@ namespace OSDPayslip.Data.Infrastructure
         void Remove(K id);
 
         void RemoveMultiple(List<T> entities);
+
         void Commit();
 
+        void CommitAsync();
     }
 }

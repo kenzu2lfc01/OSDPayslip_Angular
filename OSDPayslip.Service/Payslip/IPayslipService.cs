@@ -1,4 +1,5 @@
-﻿using OSDPayslip.Models.ViewModels;
+﻿using Microsoft.AspNetCore.Http;
+using OSDPayslip.Models.ViewModels;
 using System.Collections.Generic;
 using System.IO;
 
@@ -10,17 +11,19 @@ namespace OSDPayslip.Service.Payslip
 
         PayslipDetailViewModel Update(PayslipDetailViewModel payslipDetail);
 
-        void Delete(string id);
+        void Delete(int id);
 
         IEnumerable<PayslipDetailViewModel> GetAll();
 
-        IEnumerable<PayslipDetailViewModel> GetAllById(string id);
+        IEnumerable<PayslipDetailViewModel> GetAllById(int id);
 
-        PayslipDetailViewModel GetById(string id);
+        PayslipDetailViewModel GetById(int id);
 
         void Save();
 
-        int HandleExcelFile();
-        void MoveFile(string base64);
+        int HandleExcelFile(FileInfo fileInfo,int requestId);
+
+        void MoveFile(IFormFile file, string webRoot, string Month);
+        IEnumerable<PayslipDetailViewModel> GetAllByRequestId(int id);
     }
 }

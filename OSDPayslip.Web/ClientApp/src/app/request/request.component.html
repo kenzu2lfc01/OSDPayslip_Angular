@@ -1,7 +1,7 @@
 <div style="width: 100%" class="Payslip"
-    style="margin-left: 300px; background-image:url('../../assets/publics/backgroundsakura.jpg'); background-size: cover">
+    style="margin-left: 300px;">
     <strong>
-        <h2 style="color: pink">Request</h2>
+        <h2 style="color: rgb(253, 137, 156);margin-left: 20px">Monthly Payslips Request</h2>
     </strong>
     <div class="row" style="margin-left: 20px">
         <button class="btn" type="submit" style="background-color:pink; z-index: 0;" mat-raised-button
@@ -26,10 +26,10 @@
                 <tr>
                     <th scope="row">{{item.Id}}</th>
                     <td>{{item.NoOfDeployee}}</td>
-                    <td>{{item.PayslipForMonth}}</td>
+                    <td>{{months[item.PayslipForMonth-1]}}</td>
                     <td>{{item.CreateBy}}</td>
-                    <td>{{item.Status}}</td>
-                    <td><button type="button" class="btn btn-info">Open</button></td>
+                    <td>{{status[item.Status]}}</td>
+                    <td><button type="button" class="btn" style="background-color: pink" routerLink="../payslips/{{item.Id}}">Open</button></td>
                 </tr>
             </tbody>
         </table>

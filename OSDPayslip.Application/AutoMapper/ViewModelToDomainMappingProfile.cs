@@ -10,6 +10,7 @@ namespace OSDPayslip.Application.AutoMapper
         {
             CreateMap<PayslipDetailViewModel, PayslipDetail>(MemberList.None);
             CreateMap<RequestDetailViewModel, RequestDetail>(MemberList.None);
+            CreateMap<EmployeeViewModel, Employee>(MemberList.None);
         }
     }
 }

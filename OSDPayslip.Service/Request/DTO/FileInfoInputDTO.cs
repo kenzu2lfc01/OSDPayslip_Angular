@@ -6,7 +6,7 @@ namespace OSDPayslip.Service.Request.DTO
 {
     public class FileInfoInputDTO
     {
-        public string FileBase64;
-        public int Month;
+        public int PayslipForMonth;
+        public object File;
     }
 }

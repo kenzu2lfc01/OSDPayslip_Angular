@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { MenuPayslipComponent } from './menu-payslip/menu-payslip.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpClientModule } from "@angular/common/http"
+import {MatTableModule} from '@angular/material/table'; 
+
 import {
 	IgxButtonModule,
 	IgxIconModule,
@@ -20,7 +22,7 @@ import { HomeComponent } from './home/home.component';
 import { RequestDetailsService } from './shared/request/request-details.service';
 import { CreateRequestComponent } from './request/create-request/create-request.component';
 import { MatDialogModule } from '@angular/material';
-
+import { PayslipDetailsComponent } from './payslips/payslip-details/payslip-details.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -28,6 +30,7 @@ import { MatDialogModule } from '@angular/material';
 		appRoutingModule,
 		HomeComponent,
 		CreateRequestComponent,
+		PayslipDetailsComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -43,7 +46,8 @@ import { MatDialogModule } from '@angular/material';
 		IgxSwitchModule,
 		IgxToggleModule,
 		AppRoutingModule,
-		MatDialogModule
+		MatDialogModule,
+		MatTableModule
 	],
 	providers: [RequestDetailsService],
 	bootstrap: [AppComponent],

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace OSDPayslip.Application.Reponsitories.Interfaces
 {
-    public interface IPayslipDetailReponsitory : IRepository<PayslipDetail, string>
+    public interface IPayslipDetailReponsitory : IRepository<PayslipDetail, int>
     {
     }
 }

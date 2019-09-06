@@ -73,10 +73,17 @@ namespace OSDPayslip.Data.Infrastructure
         {
             Remove(FindById(id));
         }
+
         public void Commit()
+        {
+            _context.SaveChanges();
+        }
+
+        public void CommitAsync()
         {
             _context.SaveChangesAsync();
         }
+
         public void RemoveMultiple(List<T> entities)
         {
             _context.Set<T>().RemoveRange(entities);

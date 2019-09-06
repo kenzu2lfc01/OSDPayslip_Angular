@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using OSDPayslip.Application.Reponsitories;
 using OSDPayslip.Application.Reponsitories.Interfaces;
 using OSDPayslip.Models.Models;
 using OSDPayslip.Models.ViewModels;
@@ -13,7 +12,6 @@ namespace OSDPayslip.Service.Request
     {
         private readonly IRequestDetailReponsitory _requestDetailReponsitory;
         private readonly Mapper _mapper;
-
         public RequestService(IRequestDetailReponsitory requestDetailReponsitory, Mapper mapper)
         {
             _requestDetailReponsitory = requestDetailReponsitory;
@@ -64,12 +62,16 @@ namespace OSDPayslip.Service.Request
             _requestDetailReponsitory.Update(temp);
             return requestDetail;
         }
+
         public void UpdateNoOfDeployee(int n, int id)
         {
             var Request = GetById(id);
             Request.NoOfDeployee = n;
-            Save();
+            var temp = _mapper.Map<RequestDetailViewModel, RequestDetail > (Request);
+            _requestDetailReponsitory.Update(temp);
+            _requestDetailReponsitory.Commit();
         }
+
         public int CreateNewRequest(int month)
         {
             RequestDetailViewModel requestDetail = new RequestDetailViewModel()
@@ -82,8 +84,10 @@ namespace OSDPayslip.Service.Request
                 ModifyBy = "",
                 Status = 0
             };
-            Add(requestDetail);
-            Save();
+            var temp = _mapper.Map<RequestDetailViewModel, RequestDetail>(requestDetail);
+            _requestDetailReponsitory.Add(temp);
+            _requestDetailReponsitory.Commit();
+            var top = GetAll().Max(x => x.Id);
             return GetAll().Max(x => x.Id);
         }
     }

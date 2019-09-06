@@ -3,6 +3,8 @@ using OSDPayslip.Application.Reponsitories;
 using OSDPayslip.Application.Reponsitories.Interfaces;
 using OSDPayslip.Models.Models;
 using OSDPayslip.Models.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OSDPayslip.Service.Employees
 {
@@ -23,5 +25,20 @@ namespace OSDPayslip.Service.Employees
             _employeeReponsitory.Add(temp);
             return vm;
         }
+        public EmployeeViewModel GetById(string id)
+        {
+            var temp =  _employeeReponsitory.FindById(id);
+            return _mapper.Map<Employee,  EmployeeViewModel> (temp);
+        }
+
+        public int GetNumber()
+        {
+            return _employeeReponsitory.FindAll().ToList().Count();
+        }
+        //public List<EmployeeViewModel> GetAll()
+        //{
+        //    var temp = _employeeReponsitory.FindAll();
+        //    return _mapper.Map<Employee,  EmployeeViewModel> (temp);
+        //}
     }
 }

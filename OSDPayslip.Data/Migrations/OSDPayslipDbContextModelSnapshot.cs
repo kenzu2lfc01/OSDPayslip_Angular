@@ -26,11 +26,13 @@ namespace OSDPayslip.Data.Migrations
 
                     b.Property<string>("DeptTeam");
 
+                    b.Property<string>("Email");
+
                     b.Property<string>("FullName");
 
                     b.Property<string>("Position");
 
-                    b.Property<DateTime>("StartDay");
+                    b.Property<string>("StartDay");
 
                     b.HasKey("Id");
 
@@ -39,8 +41,9 @@ namespace OSDPayslip.Data.Migrations
 
             modelBuilder.Entity("OSDPayslip.Models.Models.PayslipDetail", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<double?>("ActuaSalary");
 

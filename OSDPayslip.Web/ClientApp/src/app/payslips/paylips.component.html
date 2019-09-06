@@ -1,0 +1,45 @@
+<div style="width: 100%" class="Payslip" style="margin-left: 300px;">
+    <strong>
+        <h2 style="color: rgb(253, 137, 156);margin-left: 20px;"><strong>Employee Payslips List</strong></h2>
+    </strong>
+    <div class="row" style="margin-left: 20px">
+        <input class="btn" type="submit" style="background-color:pink" value="Send All">
+    </div>
+    <br>
+    <div class="example-container mat-elevation-z8"
+        style="height: 40%; overflow: auto;margin-left: 20px;text-align: center">
+        <table class="table table-hover table-bordered shadow p-3 mb-5 bg-white rounded" mat-table
+            [dataSource]="service.employeePayslipsList" style="width: 95%">
+            <ng-container matColumnDef="stt">
+                <th style="background-color:pink" mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef="let item">{{item.Stt}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="employeeId">
+                <th style="background-color:pink" mat-header-cell *matHeaderCellDef> ID </th>
+                <td mat-cell *matCellDef="let item"> {{item.EmployeeId}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="employeeName">
+                <th style="background-color:pink" mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let item"> {{item.EmployeeName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <th style="background-color:pink" mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let item"> {{item.Email}} </td>
+            </ng-container>
+            <ng-container matColumnDef="status">
+                <th style="background-color:pink" mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let item"> {{status[item.Status]}} </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <th style="background-color:pink" mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let item"><button type="button" class="btn"
+                        style="background-color: pink;margin-left: 5px;margin-top: 5px">Preview</button> </td>
+            </ng-container>
+            <tr style="background-color:pink" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+</div>

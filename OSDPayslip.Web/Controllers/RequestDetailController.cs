@@ -1,30 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DinkToPdf.Contracts;
+using IdentityServer3.Core.ViewModels;
+using IronPdf;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using OSDPayslip.Data;
-using OSDPayslip.Models.Models;
 using OSDPayslip.Models.ViewModels;
+using OSDPayslip.Service.Employees;
+using OSDPayslip.Service.HandlePdf;
 using OSDPayslip.Service.Payslip;
 using OSDPayslip.Service.Request;
-using OSDPayslip.Service.Request.DTO;
+using OSDPayslip.Service.ViewRender;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http.Headers;
+using static IronPdf.PdfDocument;
 
 namespace OSDPayslip.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RequestDetailController : ControllerBase
+    public class RequestDetailController : Controller
     {
         private readonly IRequestService _requestService;
         private readonly IPayslipService _payslipService;
         private readonly IHostingEnvironment _hostingEnvironment;
-
-        public RequestDetailController(IRequestService requestService, IHostingEnvironment hostingEnvironment, IPayslipService payslipService)
+        private readonly IHandlePdfService _handlePdfService;
+        public RequestDetailController(IHandlePdfService handlePdfService,IRequestService requestService, IHostingEnvironment hostingEnvironment, IPayslipService payslipService)
         {
+            _handlePdfService = handlePdfService;
             _requestService = requestService;
             _hostingEnvironment = hostingEnvironment;
             _payslipService = payslipService;
@@ -34,17 +38,38 @@ namespace OSDPayslip.Web.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<RequestDetailViewModel>> GetRequestDetail()
         {
-            return _requestService.GetAll().ToList();
+
+            return _requestService.GetAll().ToList(); ;
         }
 
         [HttpPost]
-        [Route("newrequest")]
-        public void ReadExcelFile(FileInfoInputDTO input)
+        [Route("create")]
+        public ActionResult ReadExcelFile()
         {
-            var requestId = _requestService.CreateNewRequest(input.Month);
-            _payslipService.MoveFile(input.FileBase64);
-            var noOfEmployee = _payslipService.HandleExcelFile();
-            _requestService.UpdateNoOfDeployee(noOfEmployee, requestId);
+            try
+            {
+                var file = Request.Form.Files[0];
+                var month = Request.Form["Month"];
+                string[] months = new string[] { "Jan", "Feb", "Mar", "Apr",
+                       "May", "Jun", "July", "Aug",
+                    "Sep", "Oct", "Nov", "Dec" };
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                var requestId = _requestService.CreateNewRequest(Convert.ToInt32(month));
+                _payslipService.MoveFile(file, webRootPath, months[Convert.ToInt32(month) - 1]);
+
+                string fileName = months[Convert.ToInt32(month) - 1] + "_" + ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                string filePath = @".\wwwroot\Upload\";
+                FileInfo fileInfo = new FileInfo(Path.Combine(filePath, fileName));
+                var noOfEmployee = _payslipService.HandleExcelFile(fileInfo, requestId);
+
+                _requestService.UpdateNoOfDeployee(noOfEmployee, requestId);
+                _handlePdfService.ConvertHtmlToPdf(months[Convert.ToInt32(month)-1], requestId);
+                return Json("Upload Successful.");
+            }
+            catch (System.Exception ex)
+            {
+                return Json("Upload Failed: " + ex.Message);
+            }
         }
 
         // GET: api/RequestDetail/5

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace OSDPayslip.Data.Infrastructure
 {
@@ -9,7 +6,8 @@ namespace OSDPayslip.Data.Infrastructure
     {
         [Key]
         public T Id { get; set; }
-        public bool IsTransient ()
+
+        public bool IsTransient()
         {
             return Id.Equals(default(T));
         }

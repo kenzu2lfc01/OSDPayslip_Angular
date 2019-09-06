@@ -8,7 +8,7 @@ using System.Text;
 
 namespace OSDPayslip.Application.Reponsitories
 {
-    public class PayslipDetailReponsitory : Repository<PayslipDetail,string>, IPayslipDetailReponsitory
+    public class PayslipDetailReponsitory : Repository<PayslipDetail,int>, IPayslipDetailReponsitory
     {
         private OSDPayslipDbContext _context;
         public PayslipDetailReponsitory (OSDPayslipDbContext context) : base(context)

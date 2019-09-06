@@ -10,7 +10,6 @@ export class MenuPayslipComponent implements OnInit {
   public navItems = [
     { name: "home", text: "Home",pages:"homes" },
     { name: "view_carousel", text: "Request",pages:"requests" },
-    { name: "date_range", text: "Payslips",pages:"payslips" },
   ];
   public selected = "Home";
   @ViewChild(IgxNavigationDrawerComponent, { static: true })

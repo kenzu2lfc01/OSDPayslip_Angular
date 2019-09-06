@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OSDPayslip.Data.Migrations
 {
-    public partial class update112830082019 : Migration
+    public partial class update151803092019 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,7 @@ namespace OSDPayslip.Data.Migrations
                     FullName = table.Column<string>(nullable: true),
                     DeptTeam = table.Column<string>(nullable: true),
                     Position = table.Column<string>(nullable: true),
-                    StartDay = table.Column<DateTime>(nullable: false)
+                    StartDay = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -46,7 +46,8 @@ namespace OSDPayslip.Data.Migrations
                 name: "PayslipDetails",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     StandardWorkingDay = table.Column<int>(nullable: false),
                     ActualWorkingDay = table.Column<int>(nullable: false),
                     UnpaidLeave = table.Column<int>(nullable: false),

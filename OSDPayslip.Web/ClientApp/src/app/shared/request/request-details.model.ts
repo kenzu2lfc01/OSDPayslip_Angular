@@ -9,6 +9,8 @@ export class RequestDetails {
     Status: number
 }
 export class CreateRequestInput {
-    PayslipForMonth: number
-    File: any
+    constructor(
+        public PayslipForMonth: number,
+        public File: any
+    ) { }
 }

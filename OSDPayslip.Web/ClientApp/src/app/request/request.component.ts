@@ -8,14 +8,14 @@ import { CreateRequestComponent } from './create-request/create-request.componen
   styles: []
 })
 export class RequestComponent implements OnInit {
-
+  public months =  ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  public status = ['Ready','Pending','Success','Fail'];
   constructor(private service: RequestDetailsService,
     private dialog: MatDialog) { }
 
   ngOnInit() {
     this.service.getRequestDetails();
   }
-
   openCreate() {
     this.dialog.open(CreateRequestComponent,);
   }

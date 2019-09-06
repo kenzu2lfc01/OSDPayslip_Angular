@@ -8,7 +8,7 @@ using System.Text;
 
 namespace OSDPayslip.Models.Models
 {
-    public class PayslipDetail : DomainEntity<string>, IAuditable
+    public class PayslipDetail : DomainEntity<int>, IAuditable
     {
         public int StandardWorkingDay { get; set; }
         public int ActualWorkingDay { get; set; }

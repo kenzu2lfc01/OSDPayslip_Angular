@@ -10,8 +10,8 @@ using OSDPayslip.Data;
 namespace OSDPayslip.Data.Migrations
 {
     [DbContext(typeof(OSDPayslipDbContext))]
-    [Migration("20190830042920_update-1128-30082019")]
-    partial class update112830082019
+    [Migration("20190903112117_update-1820-03092019")]
+    partial class update182003092019
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,11 +28,13 @@ namespace OSDPayslip.Data.Migrations
 
                     b.Property<string>("DeptTeam");
 
+                    b.Property<string>("Email");
+
                     b.Property<string>("FullName");
 
                     b.Property<string>("Position");
 
-                    b.Property<DateTime>("StartDay");
+                    b.Property<string>("StartDay");
 
                     b.HasKey("Id");
 
@@ -41,8 +43,9 @@ namespace OSDPayslip.Data.Migrations
 
             modelBuilder.Entity("OSDPayslip.Models.Models.PayslipDetail", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<double?>("ActuaSalary");
 

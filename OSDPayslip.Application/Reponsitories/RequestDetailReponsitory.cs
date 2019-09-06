@@ -15,5 +15,6 @@ namespace OSDPayslip.Application.Reponsitories
         {
             _context = context;
         }
+
     }
 }

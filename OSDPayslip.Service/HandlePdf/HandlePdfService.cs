@@ -25,12 +25,13 @@ namespace OSDPayslip.Service.HandlePdf
             var payslips = _payslipDetailReponsitory.FindAll().Where(x => x.RequestID == RequestID).ToList();
             foreach (var item in payslips)
             {
+                var employee = _employeeReponsitory.FindById(item.EmployeeID);
                 var date = DateTime.Now;
                 InputPdfFile model = new InputPdfFile()
                 {
                     Id = item.EmployeeID,
-                    FullName = item.Employee.FullName,
-                    DeptTeam = item.Employee.DeptTeam,
+                    FullName = employee.FullName,
+                    DeptTeam = employee.DeptTeam,
                     StandardWorkingDay = item.StandardWorkingDay,
                     ActualWorkingDay = item.ActualWorkingDay,
                     UnpaidLeave = item.UnpaidLeave,
@@ -57,7 +58,7 @@ namespace OSDPayslip.Service.HandlePdf
                     MonthYear = date.Month.ToString() + date.Year.ToString(),
                 };
 
-                var StringHtml = _viewRenderService.RenderToStringAsync(@".../../Pages/PayslipTemplate", model).GetAwaiter().GetResult();
+                var StringHtml = _viewRenderService.RenderToStringAsync(@"../../Pages/PayslipTemplate", model).GetAwaiter().GetResult();
 
                 var pdfPrintOptions = new PdfPrintOptions()
                 {
@@ -65,10 +66,10 @@ namespace OSDPayslip.Service.HandlePdf
                     PaperSize = PdfPrintOptions.PdfPaperSize.A4,
                 };
                 HtmlToPdf Renderer = new HtmlToPdf(pdfPrintOptions);
-                Renderer.RenderHtmlAsPdf(StringHtml).SaveAs(@"..\wwwroot\PDF\" + model.Id + "_Payslips_" + month + ".pdf");
-                PdfDocument Pdf = PdfDocument.FromFile(@"..\wwwroot\PDF\" + model.Id + "_Payslips_" + month + ".pdf");
+                Renderer.RenderHtmlAsPdf(StringHtml).SaveAs(@".\wwwroot\PDF\" + model.Id + "_Payslips_" + month + ".pdf");
+                PdfDocument Pdf = PdfDocument.FromFile(@".\wwwroot\PDF\" + model.Id + "_Payslips_" + month + ".pdf");
                 Pdf.Password = "luong" + date.Month.ToString() + date.Year.ToString();
-                Pdf.SaveAs(@"..\wwwroot\PDF\" + model.Id + "_Payslips_" + month + ".pdf");
+                Pdf.SaveAs(@".\wwwroot\PDF\" + model.Id + "_Payslips_" + month + ".pdf");
             }
         }
     }

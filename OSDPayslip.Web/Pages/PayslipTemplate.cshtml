@@ -1,7 +1,7 @@
 ﻿@page
 @model OSDPayslip.Service.HandlePdf.DTO.InputPdfFile
 @{
-    var employeeViewModel = Html.ViewData.Model;
+    var Model = Html.ViewData.Model;
 }
 
 <!DOCTYPE html>
@@ -199,11 +199,11 @@
         <tbody>
             <tr>
                 <td style="width:1%;white-space: nowrap;">Mã nhân viên/ <i>Employee code</i></td>
-                <td style="width:100px;">@employeeViewModel.Id</td>
+                <td style="width:100px;">@Model.Id</td>
                 <td style="width:1%;white-space: nowrap;">Họ và tên/ <i>Fullname</i></td>
-                <td>@employeeViewModel.FullName</td>
+                <td>@Model.FullName</td>
                 <td style="width:1%;white-space: nowrap;">Bộ phận- Nhóm/<i> Dept-Team</i></td>
-                <td>@employeeViewModel.DeptTeam</td>
+                <td>@Model.DeptTeam</td>
             </tr>
         </tbody>
     </table>
@@ -219,19 +219,19 @@
         <tbody>
             <tr>
                 <td>Ngày công chuẩn/ <i>Standard working day</i></td>
-                <td></td>
+                <td>@Model.StandardWorkingDay</td>
                 <td>Phép năm còn lại/ <i>Leave balance</i></td>
-                <td></td>
+                <td>@Model.LeaveBalance</td>
             </tr>
             <tr>
                 <td>Ngày công thực tế/ <i>Actual working day</i></td>
-                <td></td>
+                <td>@Model.ActualWorkingDay</td>
                 <td>Nghỉ lễ/ <i>Holidays</i></td>
-                <td></td>
+                <td>@Model.Holidays</td>
             </tr>
             <tr>
                 <td>Ngày nghỉ không tính lương/ <i>Unpaid leave</i></td>
-                <td></td>
+                <td>@Model.UnpaidLeave</td>
                 <td></td>
                 <td></td>
             </tr>
@@ -244,37 +244,37 @@
                 <td colspan="2">
                     <h2>A. Tổng thu nhập/ <i>Total gross income</i> = (3+4+5+6)</h2>
                 </td>
-                <td colspan="2" class="text-right">xxxx</td>
+                <td colspan="2" class="text-right">@Model.ActuaSalary + @Model.Allowance + @Model.IncomeOther + @Model.OtherDeductions</td>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>1. Lương căn bản/ <i>Basic salary</i></td>
-                <td class="text-right">xxx</td>
+                <td class="text-right">@Model.BasicSalary</td>
                 <td><strong>5. Các khoản thu nhập khác/ <i>Other income</i></strong></td>
-                <td class="text-right"><strong>xxx</strong></td>
+                <td class="text-right"><strong>@Model.IncomeOther</strong></td>
             </tr>
             <tr>
                 <td rowspan="2">2. Lương gộp/ <i>Gross salary</i></td>
-                <td rowspan="2" class="text-right">xxx</td>
+                <td rowspan="2" class="text-right">@Model.GrossSalary</td>
                 <td>- Thưởng/ <i>Bonus</i></td>
-                <td class="text-right">xxx</td>
+                <td class="text-right">@Model.Bonus</td>
             </tr>
             <tr>
                 <td>- Lương tháng 13/ <i>13th salary</i></td>
-                <td class="text-right">xxx</td>
+                <td class="text-right">@Model.Salary13Th</td>
             </tr>
             <tr>
                 <td><strong>3. Lương theo ngày công/ <i>Actual salary</i></strong></td>
-                <td class="text-right"><strong>xxx</strong></td>
+                <td class="text-right"><strong>@Model.ActuaSalary</strong></td>
                 <td>- Các khoản khác/ Others</td>
                 <td class="text-right">xxx</td>
             </tr>
             <tr>
                 <td><strong>4. Phụ cấp/ <i>Allowance</i></strong></td>
-                <td class="text-right"><strong>xxx</strong></td>
+                <td class="text-right"><strong>@Model.Allowance</strong></td>
                 <td><strong>6. Các khoản thu lại khác/ <i>Other deductions</i></strong></td>
-                <td class="text-right"><strong>xxx</strong></td>
+                <td class="text-right"><strong>@Model.OtherDeductions</strong></td>
             </tr>
         </tbody>
     </table>
@@ -284,31 +284,31 @@
                 <td colspan="2">
                     <h2>B. Các khoản khấu trừ/ <i>Deductions</i> = (1+3)</h2>
                 </td>
-                <td colspan="2" class="text-right">xxxx</td>
+                <td colspan="2" class="text-right">@Model.Insurance + @Model.PersonalIncomeTax</td>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td><strong>1. Bảo hiểm/ <i>Insurance</i> = (1.1+1.2+1.3)</strong></td>
-                <td class="text-right"><strong>xxx</strong></td>
+                <td class="text-right"><strong>@Model.Insurance</strong></td>
                 <td>2. Số người phụ thuộc/ <i>No of dependants</i></td>
-                <td class="text-right">xxx</td>
+                <td class="text-right">@Model.NoOfDependants</td>
             </tr>
             <tr>
                 <td>1.1 BHXH/ <i>Social insurance</i> (8%)</td>
-                <td class="text-right">xxx</td>
+                <td class="text-right">@Model.SocialInsurance</td>
                 <td><strong>3. Thuế TNCN/ <i>Personal income tax </i></strong></td>
-                <td class="text-right"><strong>xxx</strong></td>
+                <td class="text-right"><strong>@Model.PersonalIncomeTax</strong></td>
             </tr>
             <tr>
                 <td>1.2 BHYT/ <i>Health insurance</i> (1.5%)</td>
-                <td class="text-right">xxx</td>
+                <td class="text-right">@Model.HealthInsurance</td>
                 <td></td>
                 <td></td>
             </tr>
             <tr>
                 <td>1.3 BHTN/ <i>Unemployment insurance</i> (1%)</td>
-                <td class="text-right">xxx</td>
+                <td class="text-right">@Model.UnemploymentInsurance</td>
                 <td></td>
                 <td></td>
             </tr>
@@ -320,7 +320,7 @@
                 <td colspan="2">
                     <h2>C. Các khoản thanh toán khác/ <i>Other payment</i> = (1+2+3)</h2>
                 </td>
-                <td colspan="2" class="text-right">xxxx</td>
+                <td colspan="2" class="text-right">@Model.PaymentFromSocialInsurance + @Model.PaymentOther + @Model.FinalizationOfPIT</td>
             </tr>
         </thead>
         <tbody>
@@ -333,13 +333,13 @@
                         </i>
                     </strong>
                 </td>
-                <td class="text-right"><strong>xxx</strong></td>
+                <td class="text-right"><strong>@Model.PaymentFromSocialInsurance</strong></td>
                 <td><strong>3. Quyết toán thuế TNCN/ <i>Finalization of PIT</i></strong></td>
-                <td class="text-right"><strong>xxx</strong></td>
+                <td class="text-right"><strong>@Model.FinalizationOfPIT</strong></td>
             </tr>
             <tr>
                 <td><strong>2. Các khoản thanh toán khác/ <i>Others</i></strong></td>
-                <td class="text-right"><strong>xxx</strong></td>
+                <td class="text-right"><strong>@Model.PaymentOther</strong></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -351,7 +351,7 @@
                 <td style="padding-top:10px; padding-bottom: 10px;" colspan="2">
                     <h2>D. Thu nhập thực nhận/ <i>Net income</i> = (A-B+C)</h2>
                 </td>
-                <td style="padding-top:10px; padding-bottom: 10px;" colspan="2" class="text-right">xxxx</td>
+                <td style="padding-top:10px; padding-bottom: 10px;" colspan="2" class="text-right">@Model.NetIncome</td>
             </tr>
         </thead>
     </table>

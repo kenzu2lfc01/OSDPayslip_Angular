@@ -17,6 +17,7 @@ using OSDPayslip.Application.Reponsitories;
 using OSDPayslip.Application.Reponsitories.Interfaces;
 using OSDPayslip.Data;
 using OSDPayslip.Service.Employees;
+using OSDPayslip.Service.HandlePdf;
 using OSDPayslip.Service.Payslip;
 using OSDPayslip.Service.Request;
 using OSDPayslip.Service.ViewRender;
@@ -49,6 +50,8 @@ namespace OSDPayslip.Web
             services.AddTransient<IPayslipService, PayslipService>();
             services.AddTransient<IViewRenderService, ViewRenderService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IHandlePdfService, HandlePdfService>();
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             //Reponsitoriesssssssss

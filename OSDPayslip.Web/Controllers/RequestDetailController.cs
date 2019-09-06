@@ -38,7 +38,7 @@ namespace OSDPayslip.Web.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<RequestDetailViewModel>> GetRequestDetail()
         {
-
+            _handlePdfService.ConvertHtmlToPdf("August", 3);
             return _requestService.GetAll().ToList(); ;
         }
 

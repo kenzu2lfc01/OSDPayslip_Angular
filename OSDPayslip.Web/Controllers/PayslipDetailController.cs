@@ -1,31 +1,39 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OSDPayslip.Data.Infrastructure;
 using OSDPayslip.Models.ViewModels;
 using OSDPayslip.Service.Employees;
+using OSDPayslip.Service.HandlePdf;
 using OSDPayslip.Service.Payslip;
 using OSDPayslip.Service.Payslip.DTO;
+using OSDPayslip.Service.Request;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace OSDPayslip.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PayslipDetailController : ControllerBase
+    public class PayslipDetailController : Controller
     {
         private readonly IPayslipService _payslipService;
+        private readonly IHandlePdfService _handlePdfService;
         private readonly IEmployeeService _employeeService;
-        public PayslipDetailController(IPayslipService payslipService, IEmployeeService employeeService)
+
+        public PayslipDetailController(IPayslipService payslipService, IEmployeeService employeeService, IHandlePdfService handlePdfService)
         {
             _employeeService = employeeService;
             _payslipService = payslipService;
+            _handlePdfService = handlePdfService;
         }
 
         // GET: api/PayslipDetail
-        [HttpGet("{id}")]
-        [Route("getpayslips")]
+        [HttpGet]
+        [Route("getpayslips/{id}")]
         public ActionResult<IEnumerable<PayslipDetailViewModel>> GetPayslipDetails(int id)
-        {
+        {   
             return _payslipService.GetAll().Where(x=>x.RequestID == id).ToList();
         }
 
@@ -60,11 +68,13 @@ namespace OSDPayslip.Web.Controllers
 
         // POST: api/PayslipDetail
         [HttpPost]
-        public ActionResult<PayslipDetailViewModel> PostPayslipDetail(PayslipDetailViewModel payslipDetail)
+        public ActionResult PostPayslipDetail(int  Id )
         {
-            _payslipService.Add(payslipDetail);
-            _payslipService.Save();
-            return CreatedAtAction("GetPayslipDetail", new { id = payslipDetail.Id }, payslipDetail);
+            ThreadPool.QueueUserWorkItem((test) =>
+            {
+                _handlePdfService.ConvertHtmlToPdf(Id);
+            });
+            return Json("Send complete!!");
         }
 
         // DELETE: api/PayslipDetail/5

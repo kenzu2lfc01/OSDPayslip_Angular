@@ -16,6 +16,7 @@ using OSDPayslip.Application.AutoMapper;
 using OSDPayslip.Application.Reponsitories;
 using OSDPayslip.Application.Reponsitories.Interfaces;
 using OSDPayslip.Data;
+using OSDPayslip.Data.Infrastructure;
 using OSDPayslip.Service.Employees;
 using OSDPayslip.Service.HandlePdf;
 using OSDPayslip.Service.Payslip;
@@ -51,7 +52,6 @@ namespace OSDPayslip.Web
             services.AddTransient<IViewRenderService, ViewRenderService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IHandlePdfService, HandlePdfService>();
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             //Reponsitoriesssssssss
@@ -61,6 +61,8 @@ namespace OSDPayslip.Web
             //Db context
             services.AddDbContext<OSDPayslipDbContext>(opts => opts.UseSqlServer(Configuration.GetConnectionString("OSDPayslip")));
             // Mapper
+            //Background Queue
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             AutoMapperConfig autoMapper = new AutoMapperConfig();
             Mapper mapper = autoMapper.RegisterMapping();
             services.AddSingleton(mapper);

@@ -25,10 +25,8 @@ namespace OSDPayslip.Web.Controllers
         private readonly IRequestService _requestService;
         private readonly IPayslipService _payslipService;
         private readonly IHostingEnvironment _hostingEnvironment;
-        private readonly IHandlePdfService _handlePdfService;
-        public RequestDetailController(IHandlePdfService handlePdfService,IRequestService requestService, IHostingEnvironment hostingEnvironment, IPayslipService payslipService)
+        public RequestDetailController(IRequestService requestService, IHostingEnvironment hostingEnvironment, IPayslipService payslipService)
         {
-            _handlePdfService = handlePdfService;
             _requestService = requestService;
             _hostingEnvironment = hostingEnvironment;
             _payslipService = payslipService;
@@ -38,7 +36,6 @@ namespace OSDPayslip.Web.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<RequestDetailViewModel>> GetRequestDetail()
         {
-            _handlePdfService.ConvertHtmlToPdf("August", 3);
             return _requestService.GetAll().ToList(); ;
         }
 
@@ -46,25 +43,38 @@ namespace OSDPayslip.Web.Controllers
         [Route("create")]
         public ActionResult ReadExcelFile()
         {
+            string[] months = new string[] { "Jan", "Feb", "Mar", "Apr",
+                       "May", "Jun", "July", "Aug",
+                    "Sep", "Oct", "Nov", "Dec" };
             try
             {
                 var file = Request.Form.Files[0];
                 var month = Request.Form["Month"];
-                string[] months = new string[] { "Jan", "Feb", "Mar", "Apr",
-                       "May", "Jun", "July", "Aug",
-                    "Sep", "Oct", "Nov", "Dec" };
                 string webRootPath = _hostingEnvironment.WebRootPath;
-                var requestId = _requestService.CreateNewRequest(Convert.ToInt32(month));
-                _payslipService.MoveFile(file, webRootPath, months[Convert.ToInt32(month) - 1]);
-
-                string fileName = months[Convert.ToInt32(month) - 1] + "_" + ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                string filePath = @".\wwwroot\Upload\";
-                FileInfo fileInfo = new FileInfo(Path.Combine(filePath, fileName));
-                var noOfEmployee = _payslipService.HandleExcelFile(fileInfo, requestId);
-
-                _requestService.UpdateNoOfDeployee(noOfEmployee, requestId);
-                _handlePdfService.ConvertHtmlToPdf(months[Convert.ToInt32(month)-1], requestId);
-                return Json("Upload Successful.");
+                if (file != null || month != "")
+                {
+                    string fileName = months[Convert.ToInt32(month) - 1] + "_" + ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    string filePath = @".\wwwroot\Upload\";
+                    FileInfo fileInfo = new FileInfo(Path.Combine(filePath, fileName));
+                    _payslipService.MoveFile(file, webRootPath, months[Convert.ToInt32(month) - 1]);
+                        
+                    var noOfEmployee = _payslipService.CountNoOfEmployee(fileInfo);
+                    var requestId = _requestService.CreateNewRequest(Convert.ToInt32(month), noOfEmployee);
+                    try
+                    {
+                        _payslipService.HandleExcelFile(fileInfo, requestId);
+                    }
+                    catch (Exception ex)
+                    {
+                        _requestService.Delete(requestId);
+                        return Json("Upload Failed: " + ex.Message);
+                    }
+                    return Json("Upload Successful.");
+                }
+                else
+                {
+                    return Json("Upload Failed: File is wrong!!");
+                }
             }
             catch (System.Exception ex)
             {

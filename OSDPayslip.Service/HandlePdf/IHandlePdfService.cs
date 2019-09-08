@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace OSDPayslip.Service.HandlePdf
 {
     public interface IHandlePdfService
     {
-        void ConvertHtmlToPdf(string month, int RequestID);
+        bool ConvertHtmlToPdf(int RequestID);
     }
 }

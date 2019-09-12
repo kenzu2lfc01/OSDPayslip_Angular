@@ -13,9 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSDPayslip.UnitTest", "OSDP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSDPayslip.Application", "OSDPayslip.Application\OSDPayslip.Application.csproj", "{3521E5AA-E4CF-47CB-A63E-9EC99CAD2B40}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSDPayslip.Common", "OSDPayslip.Common\OSDPayslip.Common.csproj", "{047AB555-CADD-450A-8EE8-786EA8B11A37}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSDPayslip.Web", "OSDPayslip.Web\OSDPayslip.Web.csproj", "{BD93EF8C-F58D-4D1B-B4DC-DB35ED8F49C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSDPayslip.Web", "OSDPayslip.Web\OSDPayslip.Web.csproj", "{BD93EF8C-F58D-4D1B-B4DC-DB35ED8F49C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +41,6 @@ Global
 		{3521E5AA-E4CF-47CB-A63E-9EC99CAD2B40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3521E5AA-E4CF-47CB-A63E-9EC99CAD2B40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3521E5AA-E4CF-47CB-A63E-9EC99CAD2B40}.Release|Any CPU.Build.0 = Release|Any CPU
-		{047AB555-CADD-450A-8EE8-786EA8B11A37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{047AB555-CADD-450A-8EE8-786EA8B11A37}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{047AB555-CADD-450A-8EE8-786EA8B11A37}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{047AB555-CADD-450A-8EE8-786EA8B11A37}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BD93EF8C-F58D-4D1B-B4DC-DB35ED8F49C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BD93EF8C-F58D-4D1B-B4DC-DB35ED8F49C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD93EF8C-F58D-4D1B-B4DC-DB35ED8F49C6}.Release|Any CPU.ActiveCfg = Release|Any CPU

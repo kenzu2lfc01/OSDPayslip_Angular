@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using OSDPayslip.Models.ViewModels;
+using OSDPayslip.Service.Payslip.DTO;
 using System.Collections.Generic;
 using System.IO;
 
@@ -26,5 +27,6 @@ namespace OSDPayslip.Service.Payslip
         void MoveFile(IFormFile file, string webRoot, string Month);
         IEnumerable<PayslipDetailViewModel> GetAllByRequestId(int id);
         int CountNoOfEmployee(FileInfo fileInfo);
+        OutputPreviewPayslip GetPayslipPreviews(int RequestId);
     }
 }

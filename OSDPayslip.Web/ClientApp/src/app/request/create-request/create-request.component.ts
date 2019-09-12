@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { RequestDetailsService } from 'src/app/shared/request/request-details.service';
 
@@ -31,7 +31,12 @@ export class CreateRequestComponent implements OnInit {
   fileValue: any;
   public progress: number;
   public message: string;
-  constructor(private dialogRef: MatDialogRef<CreateRequestComponent>,private service: RequestDetailsService, private http: HttpClient) { }
+  constructor(private dialogRef: MatDialogRef<CreateRequestComponent>, private service: RequestDetailsService, private http: HttpClient) {
+    dialogRef.disableClose = true;
+    dialogRef.backdropClick().subscribe(() => {
+      dialogRef.close();
+    })
+  }
   createRequest() {
     const formData = new FormData();
     for (let file of this.fileValue) {
@@ -46,6 +51,11 @@ export class CreateRequestComponent implements OnInit {
       else if (event.type === HttpEventType.Response)
         this.message = event.body.toString();
     });
+    this.service.getRequestDetails();
+  }
+  
+  @HostListener('window:keyup.esc') onKeyUp() {
+    this.dialogRef.close();
   }
 
 

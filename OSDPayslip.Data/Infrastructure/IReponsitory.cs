@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace OSDPayslip.Data.Infrastructure
 {
-    public interface IRepository<T, K> where T : class
+    public interface IRepository<T, K> where T : class 
     {
         T FindById(K id, params Expression<Func<T, object>>[] includeProperties);
 

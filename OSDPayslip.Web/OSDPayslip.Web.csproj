@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
@@ -11,7 +12,6 @@
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="DinkToPdf" Version="1.0.8" />
     <PackageReference Include="IdentityServer3" Version="2.6.3" />
@@ -49,7 +49,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OSDPayslip.Application\OSDPayslip.Application.csproj" />
-    <ProjectReference Include="..\OSDPayslip.Common\OSDPayslip.Common.csproj" />
     <ProjectReference Include="..\OSDPayslip.Data\OSDPayslip.Data.csproj" />
     <ProjectReference Include="..\OSDPayslip.Models\OSDPayslip.Models.csproj" />
     <ProjectReference Include="..\OSDPayslip.Service\OSDPayslip.Service.csproj" />

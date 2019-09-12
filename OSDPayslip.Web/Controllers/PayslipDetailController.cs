@@ -10,7 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
+using OSDPayslip.Service.SendMail;
 
 namespace OSDPayslip.Web.Controllers
 {
@@ -20,13 +22,17 @@ namespace OSDPayslip.Web.Controllers
     {
         private readonly IPayslipService _payslipService;
         private readonly IHandlePdfService _handlePdfService;
+        private readonly ISendMailService _sendMailService;
         private readonly IEmployeeService _employeeService;
+        private readonly IServiceProvider _services;
 
-        public PayslipDetailController(IPayslipService payslipService, IEmployeeService employeeService, IHandlePdfService handlePdfService)
+        public PayslipDetailController(IPayslipService payslipService, IEmployeeService employeeService, IHandlePdfService handlePdfService, IServiceProvider services, ISendMailService sendMailService)
         {
+            _sendMailService = sendMailService;
             _employeeService = employeeService;
             _payslipService = payslipService;
             _handlePdfService = handlePdfService;
+            _services = services;
         }
 
         // GET: api/PayslipDetail
@@ -35,6 +41,12 @@ namespace OSDPayslip.Web.Controllers
         public ActionResult<IEnumerable<PayslipDetailViewModel>> GetPayslipDetails(int id)
         {   
             return _payslipService.GetAll().Where(x=>x.RequestID == id).ToList();
+        }
+        [HttpGet]
+        [Route("getpreview/{id}")]
+        public OutputPreviewPayslip GetPreviewPayslips(int id)
+        {
+            return _payslipService.GetPayslipPreviews(id);
         }
 
         // GET: api/PayslipDetail/5
@@ -68,11 +80,26 @@ namespace OSDPayslip.Web.Controllers
 
         // POST: api/PayslipDetail
         [HttpPost]
-        public ActionResult PostPayslipDetail(int  Id )
+        public ActionResult PostPayslipDetail()
         {
-            ThreadPool.QueueUserWorkItem((test) =>
+            var requestId = Request.Form["RequestId"];
+            int Id = Convert.ToInt32(requestId);
+            ThreadPool.QueueUserWorkItem( async task =>
             {
-                _handlePdfService.ConvertHtmlToPdf(Id);
+                await Task.Run(() =>
+                {
+                    using (var scope = _services.CreateScope())
+                    {
+                        var handlePdfService = scope.ServiceProvider
+                            .GetRequiredService<IHandlePdfService>();
+                        handlePdfService.ConvertHtmlToPdf(Id);
+
+                        var sendmailService = scope.ServiceProvider
+                            .GetRequiredService<ISendMailService>();
+                        sendmailService.SendMail(Id);
+
+                    }
+                });
             });
             return Json("Send complete!!");
         }

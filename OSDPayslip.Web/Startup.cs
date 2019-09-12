@@ -21,7 +21,10 @@ using OSDPayslip.Service.Employees;
 using OSDPayslip.Service.HandlePdf;
 using OSDPayslip.Service.Payslip;
 using OSDPayslip.Service.Request;
+using OSDPayslip.Service.SendMail;
 using OSDPayslip.Service.ViewRender;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace OSDPayslip.Web
 {
@@ -38,6 +41,7 @@ namespace OSDPayslip.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(opts =>
             {
                 var resolver = opts.SerializerSettings.ContractResolver;
@@ -51,6 +55,7 @@ namespace OSDPayslip.Web
             services.AddTransient<IPayslipService, PayslipService>();
             services.AddTransient<IViewRenderService, ViewRenderService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<ISendMailService, SendMailService>();
             services.AddTransient<IHandlePdfService, HandlePdfService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
@@ -59,9 +64,39 @@ namespace OSDPayslip.Web
             services.AddTransient<IEmployeeReponsitory, EmployeeReponsitory>();
             services.AddTransient<IPayslipDetailReponsitory, PayslipDetailReponsitory>();
             //Db context
-            services.AddDbContext<OSDPayslipDbContext>(opts => opts.UseSqlServer(Configuration.GetConnectionString("OSDPayslip")));
-            // Mapper
-            //Background Queue
+            var conectionString = Configuration.GetConnectionString("OSDPayslip");
+            try
+            {
+                services.AddDbContext<OSDPayslipDbContext>(opts => opts.UseSqlServer(conectionString));
+            }
+            finally
+            {
+                using (SqlConnection connection = new SqlConnection(conectionString))
+                {
+                    try
+                    {
+                        string sql = @"delete from dbo.requestdetail where  createdate < dateadd(month, -2, getdate())";
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            command.CommandType = CommandType.Text;
+                            connection.Open();
+                            command.ExecuteNonQuery();
+                            connection.Close();
+                        }
+                    }
+                    finally
+                    {
+                        string sql1 = @"delete from dbo.payslipdetails where  createdate < dateadd(month, -2, getdate())";
+                        using (SqlCommand command = new SqlCommand(sql1, connection))
+                        {
+                            command.CommandType = CommandType.Text;
+                            connection.Open();
+                            command.ExecuteNonQuery();
+                            connection.Close();
+                        }
+                    }
+                }
+            }
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             AutoMapperConfig autoMapper = new AutoMapperConfig();
             Mapper mapper = autoMapper.RegisterMapping();

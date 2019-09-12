@@ -4,6 +4,7 @@ using OfficeOpenXml;
 using OSDPayslip.Application.Reponsitories.Interfaces;
 using OSDPayslip.Models.Models;
 using OSDPayslip.Models.ViewModels;
+using OSDPayslip.Service.Payslip.DTO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,6 +36,7 @@ namespace OSDPayslip.Service.Payslip
         public void Delete(int id)
         {
             _payslipDetailReponsitory.Remove(id);
+            _payslipDetailReponsitory.CommitAsync();
         }
 
         public IEnumerable<PayslipDetailViewModel> GetAll()
@@ -65,7 +67,45 @@ namespace OSDPayslip.Service.Payslip
             PayslipDetailViewModel payslipDetailViewModels = new PayslipDetailViewModel();
             return payslipDetailViewModels = _mapper.Map<PayslipDetail, PayslipDetailViewModel>(item);
         }
-
+        public OutputPreviewPayslip GetPayslipPreviews(int RequestId)
+        {
+           var temp = _payslipDetailReponsitory.FindById(RequestId);
+            var employee = _employeeReponsitory.FindById(temp.EmployeeID);
+            OutputPreviewPayslip outputEmployeePayslipList = new OutputPreviewPayslip()
+            {
+                StandardWorkingDay = temp.StandardWorkingDay,
+                UnpaidLeave = temp.UnpaidLeave,
+                ActualWorkingDay = temp.ActualWorkingDay,
+                LeaveBalance = temp.LeaveBalance,
+                //Total grosss incom
+                GrossSalary = temp.GrossSalary,
+                ActuaSalary = temp.ActuaSalary,
+                BasicSalary = temp.BasicSalary,
+                Allowance = temp.Allowance,
+                Bonus = temp.Bonus,
+                Salary13Th = temp.Salary13Th,
+                IncomeOther = temp.IncomeOther,
+                OtherDeductions = temp.OtherDeductions,
+                ///Deductions
+                SocialInsurance = temp.SocialInsurance,
+                HealthInsurance = temp.HealthInsurance,
+                UnemploymentInsurance = temp.UnemploymentInsurance,
+                NoOfDependants = temp.NoOfDependants,
+                PersonalIncomeTax = temp.PersonalIncomeTax,
+                PaymentFromSocialInsurance = temp.PaymentFromSocialInsurance,
+                PaymentOther = temp.PaymentOther,
+                FinalizationOfPIT = temp.FinalizationOfPIT,
+                NetIncome = temp.NetIncome,
+                EmployeeID = employee.Id,
+                Status = temp.Status,
+                Email = employee.Email,
+                DeptTeam = employee.DeptTeam,
+                EmployeeName = employee.FullName,
+                Holidays = temp.Holidays,
+                Id = temp.Holidays,
+            };
+            return outputEmployeePayslipList;
+        }
         public void Save()
         {
             _payslipDetailReponsitory.Commit();
@@ -96,6 +136,7 @@ namespace OSDPayslip.Service.Payslip
                 }
             }
         }
+
         public int CountNoOfEmployee(FileInfo fileInfo)
         {
             int rowCount = 0;
@@ -104,8 +145,9 @@ namespace OSDPayslip.Service.Payslip
                 ExcelWorksheet worksheet = excel.Workbook.Worksheets[1];
                 rowCount = worksheet.Dimension.Rows;
             }
-            return rowCount - 6 ;
+            return rowCount - 6;
         }
+
         public void HandleExcelFile(FileInfo fileInfo, int requestId)
         {
             int rowCount = 0;
@@ -153,19 +195,27 @@ namespace OSDPayslip.Service.Payslip
                         EmployeeID = e.Id,
                         RequestID = requestId
                     };
-                    var employee = _mapper.Map<EmployeeViewModel, Employee>(e);
-                    if (_employeeReponsitory.FindAll().Where(x => x.Id == employee.Id) != null)
+                    try
                     {
-                        _employeeReponsitory.Update(employee);
-                    } 
-                    else
-                    {
+                        var employee = _mapper.Map<EmployeeViewModel, Employee>(e);
+                        if (_employeeReponsitory.FindAll().Where(x => x.Id == employee.Id) != null)
+                        {
+                            _employeeReponsitory.Update(employee);
+                        }
+                        else
+                        {
+                            _employeeReponsitory.Add(employee);
+                        }
                         _employeeReponsitory.Add(employee);
+                        _employeeReponsitory.Commit();
+                        var payslip = _mapper.Map<PayslipDetailViewModel, PayslipDetail>(payslipDetailViewModel);
+                        _payslipDetailReponsitory.Add(payslip);
+                        _payslipDetailReponsitory.Commit();
                     }
-                    _employeeReponsitory.Commit();
-                    var payslip = _mapper.Map<PayslipDetailViewModel, PayslipDetail>(payslipDetailViewModel);
-                    _payslipDetailReponsitory.Add(payslip);
-                    _payslipDetailReponsitory.Commit();
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
                 }
             }
         }

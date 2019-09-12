@@ -44,10 +44,13 @@
     .select-css option {
         font-weight: normal;
     }
-</style>
-<form class="shadow p-3 mb-5 bg-white rounded" style="margin-left:50%;width: 40%">
-    <div class="row">
+    .modal__content,dialog-layout,mat-dialog-container,.mat-dialog-container,#cdk-overlay-0,.cdk-overlay-pane {
+    z-index: 9999 !important;
+}
 
+</style>
+<form class="shadow p-3 mb-5 bg-white rounded" style="margin-left:50%;width: 40% ">
+    <div class="row">
         <div class="col-8">
             <h4 style="color: rgb(253, 137, 156);margin-top: 0">Create New Request</h4>
         </div>
@@ -82,10 +85,10 @@
     <div class="form-group">
         <span style="font-weight:bold;color:rgb(253, 137, 156);" *ngIf="progress > 0 && progress < 100">
             {{progress}}%
-          </span>
-          
-          <span style="font-weight:bold;color:rgb(253, 137, 156);" *ngIf="message">
+        </span>
+
+        <span style="font-weight:bold;color:rgb(253, 137, 156);" *ngIf="message">
             {{message}}
-          </span>
+        </span>
     </div>
 </form>

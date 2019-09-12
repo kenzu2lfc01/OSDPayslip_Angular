@@ -17,6 +17,9 @@ export class RequestComponent implements OnInit {
     this.service.getRequestDetails();
   }
   openCreate() {
-    this.dialog.open(CreateRequestComponent,);
+    let dialogRef = this.dialog.open(CreateRequestComponent,{ disableClose: true,});
+      dialogRef.backdropClick().subscribe(_ => {
+    dialogRef.close();
+  })
   }
 }

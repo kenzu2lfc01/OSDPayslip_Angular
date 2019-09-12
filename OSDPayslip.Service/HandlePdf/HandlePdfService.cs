@@ -29,6 +29,7 @@ namespace OSDPayslip.Service.HandlePdf
 
         public bool ConvertHtmlToPdf(int RequestID)
         {
+
             var payslips = _payslipDetailReponsitory.FindAll().Where(x => x.RequestID == RequestID).ToList();
             var request =  _requestDetailService.GetById(RequestID);
             string[] months = new string[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
@@ -80,10 +81,11 @@ namespace OSDPayslip.Service.HandlePdf
                         PaperSize = PdfPrintOptions.PdfPaperSize.A4,
                     };
                     HtmlToPdf Renderer = new HtmlToPdf(pdfPrintOptions);
-                    Renderer.RenderHtmlAsPdf(StringHtml).SaveAs(@".\wwwroot\PDF\" + model.Id + "_Payslips_" + month + ".pdf");
-                    PdfDocument Pdf = PdfDocument.FromFile(@".\wwwroot\PDF\" + model.Id + "_Payslips_" + month + ".pdf");
+                    Renderer.RenderHtmlAsPdf(StringHtml).SaveAs(@"..\OSDPayslip.Web\wwwroot\PDF\" + model.Id + "_Payslips_" + month + ".pdf");
+                    PdfDocument Pdf = PdfDocument.FromFile(@"..\OSDPayslip.Web\wwwroot\PDF\" + model.Id + "_Payslips_" + month + ".pdf");
                     Pdf.Password = "luong" + date.Month.ToString() + date.Year.ToString();
-                    Pdf.SaveAs(@".\wwwroot\PDF\" + model.Id + "_Payslips_" + month + ".pdf");
+                    Pdf.SaveAs(@"..\OSDPayslip.Web\wwwroot\PDF\" + model.Id + "_Payslips_" + month + ".pdf");
+
                 }
             }
             catch(Exception ex)

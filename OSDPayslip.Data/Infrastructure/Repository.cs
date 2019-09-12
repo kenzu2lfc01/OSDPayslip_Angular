@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OSDPayslip.Models.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;

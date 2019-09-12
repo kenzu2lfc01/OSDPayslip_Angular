@@ -1,4 +1,4 @@
-﻿using OSDPayslip.Data.Infrastructure;
+﻿using OSDPayslip.Models.Infrastructure;
 using System.Collections.Generic;
 
 namespace OSDPayslip.Models.Models

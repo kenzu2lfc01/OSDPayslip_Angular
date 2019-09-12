@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OSDPayslip.Common\OSDPayslip.Common.csproj" />
     <ProjectReference Include="..\OSDPayslip.Data\OSDPayslip.Data.csproj" />
     <ProjectReference Include="..\OSDPayslip.Models\OSDPayslip.Models.csproj" />
   </ItemGroup>

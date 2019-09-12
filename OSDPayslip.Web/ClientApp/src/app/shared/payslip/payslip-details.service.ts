@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OutputEmployeePayslipList, PayslipDetails } from './payslip-details.model';
-import { HttpClient } from "@angular/common/http"
+import { HttpClient, HttpRequest } from "@angular/common/http"
 
 @Injectable({
   providedIn: 'root'
@@ -15,5 +15,13 @@ export class PayslipDetailsService {
   }
   getPayslipsList(id){
     this.http.get(this.rootUrl + `/PayslipDetail/getpayslips/${id.Id}`).toPromise().then(res => this.payslipList = res as PayslipDetails[])
+  }
+  sendMail(data)
+  {
+    debugger;
+   const uploadReq = new HttpRequest('POST', this.rootUrl + `/PayslipDetail`,data, {
+    reportProgress: true,
+  });
+   return uploadReq;
   }
 }

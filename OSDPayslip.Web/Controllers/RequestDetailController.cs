@@ -3,6 +3,8 @@ using IdentityServer3.Core.ViewModels;
 using IronPdf;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using OSDPayslip.Data;
 using OSDPayslip.Models.ViewModels;
 using OSDPayslip.Service.Employees;
 using OSDPayslip.Service.HandlePdf;
@@ -11,6 +13,7 @@ using OSDPayslip.Service.Request;
 using OSDPayslip.Service.ViewRender;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -43,6 +46,10 @@ namespace OSDPayslip.Web.Controllers
         [Route("create")]
         public ActionResult ReadExcelFile()
         {
+            var options = new DbContextOptionsBuilder<OSDPayslipDbContext>()
+                .UseSqlServer(new SqlConnection("Data Source=HCM-THANGNQ\\THANGNGUYEN;Initial Catalog=OSDPayslip;Integrated Security=False;Persist Security Info=False;User ID=sa;Password=123qwe"))
+                .Options;
+
             string[] months = new string[] { "Jan", "Feb", "Mar", "Apr",
                        "May", "Jun", "July", "Aug",
                     "Sep", "Oct", "Nov", "Dec" };
@@ -66,7 +73,15 @@ namespace OSDPayslip.Web.Controllers
                     }
                     catch (Exception ex)
                     {
-                        _requestService.Delete(requestId);
+                        using (var context1 = new OSDPayslipDbContext(options))
+                        {
+                            using (var transaction = context1.Database.BeginTransaction())
+                            {
+                                var request = _requestService.GetById(requestId);
+                                context1.RequestDetail.Remove();
+                            }
+                        }
+
                         return Json("Upload Failed: " + ex.Message);
                     }
                     return Json("Upload Successful.");

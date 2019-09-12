@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { MenuPayslipComponent } from './menu-payslip/menu-payslip.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpClientModule } from "@angular/common/http"
-import {MatTableModule} from '@angular/material/table'; 
+import { MatTableModule } from '@angular/material/table';
 
 import {
 	IgxButtonModule,
@@ -21,7 +21,7 @@ import { AppRoutingModule, appRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { RequestDetailsService } from './shared/request/request-details.service';
 import { CreateRequestComponent } from './request/create-request/create-request.component';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatStepperModule } from '@angular/material';
 import { PayslipDetailsComponent } from './payslips/payslip-details/payslip-details.component';
 @NgModule({
 	declarations: [
@@ -47,7 +47,27 @@ import { PayslipDetailsComponent } from './payslips/payslip-details/payslip-deta
 		IgxToggleModule,
 		AppRoutingModule,
 		MatDialogModule,
-		MatTableModule
+		MatTableModule,
+		MatToolbarModule,
+		MatButtonModule,
+		MatSidenavModule,
+		MatIconModule,
+		MatListModule,
+		MatStepperModule,
+		MatInputModule
+	],
+	exports: [
+		MatButtonModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatRippleModule,
+		MatToolbarModule,
+		MatButtonModule,
+		MatSidenavModule,
+		MatIconModule,
+		MatListModule,
+		MatStepperModule,
+		MatInputModule
 	],
 	providers: [RequestDetailsService],
 	bootstrap: [AppComponent],
